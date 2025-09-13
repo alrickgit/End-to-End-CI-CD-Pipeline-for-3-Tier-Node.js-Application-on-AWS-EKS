@@ -1,0 +1,2 @@
+# End-to-End-CI-CD-Pipeline-for-3-Tier-Node.js-Application-on-AWS-EKS
+End-to-end CI/CD pipeline for a 3-tier Node.js app on AWS EKS using eksctl. Integrated Jenkins with SonarQube, Trivy, Gitleaks, and Docker for code quality, security scanning, and containerization. Implemented RBAC with service accounts , HTTPS setup using NGINX ingress, and monitoring using Prometheus and Grafana for real-time insights.
