@@ -45,5 +45,6 @@ Automated build, test, and deployment processes using Jenkins pipelines triggere
 - **NGINX Ingress Controller** – HTTP/HTTPS routing into the cluster  
 - **cert-manager** – Automated TLS certificate management  
 - **RBAC** – Role-based access control in Kubernetes
+- **Helm,** – Kubernetes package manager
 
 
