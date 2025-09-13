@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'prod', credentialsId: 'github', url: 'https://github.com/mycloudlearning23/3-Tier-DevSecOps-Project.git'
+                git branch: 'main', credentialsId: 'github-public-token', url: 'https://github.com/alrickgit/End-to-End-CI-CD-Pipeline-for-3-Tier-Node.js-Application-on-AWS-EKS.git'
             }
         }
         
@@ -88,6 +88,7 @@ pipeline {
             }
              
         }  
+
         stage('Manual Approval for Production') {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
@@ -95,19 +96,19 @@ pipeline {
                 }
             }
         }
-      
         
        stage('Deployment To Prod') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'three-tier-app', contextName: '', credentialsId: 'k8s-cluster-creds', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://AE3561CF528D2ADA19A793575C91D764.gr7.ap-south-1.eks.amazonaws.com') {
-                        sh 'kubectl apply -f k8s-prod/sc.yaml'
+                    withKubeConfig(caCertificate: '', clusterName: 'three-tier-app', contextName: '', credentialsId: 'k8s-cluster-creds', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://0E10F62D68891E3B8B2D0C6AF8513F7B.gr7.ap-south-1.eks.amazonaws.com') {
+                        sh 'kubectl apply -f k8s-manifests/sc.yaml'
                         sleep 20
-                        sh 'kubectl apply -f k8s-prod/mysql.yaml -n prod'
-                        sh 'kubectl apply -f k8s-prod/backend.yaml -n prod'
-                        sh 'kubectl apply -f k8s-prod/frontend.yaml -n prod'
-                        sh 'kubectl apply -f k8s-prod/ci.yaml'
-                        sh 'kubectl apply -f k8s-prod/ingress.yaml -n prod'
+                        sh 'kubectl apply -f k8s-manifests/mysql.yaml -n prod'
+                        sh 'kubectl apply -f k8s-manifests/backend.yaml -n prod'
+                        sh 'kubectl apply -f k8s-manifests/frontend.yaml -n prod'
+                        sh 'kubectl apply -f k8s-manifests/ci.yaml'
+                        sleep 30
+                        sh 'kubectl apply -f k8s-manifests/ingress.yaml -n prod'
                         sleep 30
                     }
                 }
@@ -117,7 +118,7 @@ pipeline {
         stage('Verify Deployment To Prod') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'three-tier-app', contextName: '', credentialsId: 'k8s-cluster-creds', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://AE3561CF528D2ADA19A793575C91D764.gr7.ap-south-1.eks.amazonaws.com') {
+                    withKubeConfig(caCertificate: '', clusterName: 'three-tier-app', contextName: '', credentialsId: 'k8s-cluster-creds', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://0E10F62D68891E3B8B2D0C6AF8513F7B.gr7.ap-south-1.eks.amazonaws.com') {
                         sh 'kubectl get pods -n prod'
                         sleep 20
                          sh 'kubectl get ingress -n prod'
